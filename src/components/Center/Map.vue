@@ -91,10 +91,11 @@ export default {
       this.$http
         .jsonp(url)
         .then(res => {          
-          this.provData = res.data.map(item=>{
-            item.name=convertProv(item.name);
-            return item;
-          });
+          this.provData = res.data
+          // .map(item=>{
+          //   item.name=convertProv(item.name);
+          //   return item;
+          // });
           this.chart.setOption(mapChart.refreshMain(this.provData));
           // let passednum = 0;
           // this.provData.map(item => {
