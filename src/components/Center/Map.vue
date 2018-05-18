@@ -92,10 +92,10 @@ export default {
         .jsonp(url)
         .then(res => {          
           this.provData = res.data
-          // .map(item=>{
-          //   item.name=convertProv(item.name);
-          //   return item;
-          // });
+          .map(item=>{
+            item.name=convertProv(item.name);
+            return item;
+          });
           this.chart.setOption(mapChart.refreshMain(this.provData));
           // let passednum = 0;
           // this.provData.map(item => {
@@ -129,7 +129,7 @@ export default {
       // 20秒更新一次数据
       // setInterval(() => {
       //   this.getData();
-      // }, 20000);
+      // }, 60000);
     },
     init() {
       echarts.registerMap("china", chinaJson);

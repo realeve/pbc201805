@@ -18,6 +18,7 @@
     </template>
     <template v-else>
       <!-- <span class="tip-mobile-left">通过人数: {{passedCount}}</span> -->
+      <span class="tip-mobile-left">改革开放40周年<br>货币金银大事评选</span>
       <span class="tip-mobile">参与人数: {{peopleCount}}</span>
       <div class="content">
         <v-center class="center-content" />
