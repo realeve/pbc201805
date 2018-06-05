@@ -22,6 +22,7 @@
       <span class="tip-mobile">参与人数: {{peopleCount}}</span>
       <div class="content">
         <v-center class="center-content" />
+        <v-left class="left-content" />
         <v-right class="right-content" />
       </div>
     </template>
@@ -32,7 +33,7 @@
 import FullImage from "./IFullImage/index";
 import VHeader from "./Header/";
 import VCenter from "./Center.vue";
-import VLeft from "./Left.vue";
+import VLeft from "./Chart/Bar2.vue"; //from "./Left.vue";
 import VRight from "./Right.vue";
 
 import { Flexbox, FlexboxItem } from "vux";

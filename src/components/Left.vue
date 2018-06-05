@@ -3,19 +3,17 @@
 </template>
 
 <script>
-  import VChart from './Chart/Bar.vue';
+import VChart from "./Chart/Bar2.vue";
 
-  export default {
-    components: {
-      VChart
-    },
+export default {
+  components: {
+    VChart
   }
-
+};
 </script>
 
 <style scoped lang="less">
-  .margin-top-15 {
-    margin-top: 10px;
-  }
-
+.margin-top-15 {
+  margin-top: 10px;
+}
 </style>
