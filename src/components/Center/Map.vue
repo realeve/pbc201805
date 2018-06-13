@@ -18,7 +18,7 @@ import chinaJson from "./js/china.json";
 
 // 以名次变化地图颜色
 import mapChart from "./js/mapOptionStep.js";
-import convertProv from './js/provData.js';
+import convertProv from "./js/provData.js";
 
 export default {
   data() {
@@ -87,13 +87,13 @@ export default {
       });
     },
     getData() {
-      let url = "http://cbpc540.applinzi.com/?s=/addon/Api/Api/getCountByProv";
+      let url =
+        "http://cbpc540.applinzi.com/?s=/addon/Api/Api/getVoteCountByProv";
       this.$http
         .jsonp(url)
-        .then(res => {          
-          this.provData = res.data
-          .map(item=>{
-            item.name=convertProv(item.name);
+        .then(res => {
+          this.provData = res.data.map(item => {
+            item.name = convertProv(item.name);
             return item;
           });
           this.chart.setOption(mapChart.refreshMain(this.provData));
@@ -110,7 +110,7 @@ export default {
         return;
       }
 
-      url =  this.$baseurl+"?s=/addon/Api/Api/getCountByCity";
+      url = this.$baseurl + "?s=/addon/Api/Api/getVoteCountByCity";
       this.$http
         .jsonp(url)
         .then(res => {
