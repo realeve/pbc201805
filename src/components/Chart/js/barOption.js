@@ -57,7 +57,7 @@ function init(barWidth = 20) {
       silent: true,
       barGap: '-100%',
       color: ['#153465'],
-      barMaxWidth: 20,
+      // barMaxWidth: 10,
       barWidth,
       data: []
     }, {
@@ -66,7 +66,7 @@ function init(barWidth = 20) {
       // stack: 'all',
       hoverAnimation: false,
       color: [lineColor],
-      barMaxWidth: 20,
+      // barMaxWidth: 10,
       barWidth,
       data: []
     }]

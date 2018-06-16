@@ -32,6 +32,12 @@ let mutations = {
   setBrowser(state, val) {
     state.isPC = val;
   },
+  showDeptDetail(state, val) {
+    state.showDeptDetail = val;
+  },
+  setDetailDept(state, val) {
+    state.detail_dept = val;
+  }
   // setPassed(state,val){
   //   state.passedCount = val;
   // }

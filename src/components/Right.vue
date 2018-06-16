@@ -16,7 +16,7 @@
     </div>
   </div>
   <div v-else style="padding:10px;">
-    <div class="item" style="margin-top:20px;">
+    <div class="item" style="margin-top:140px;">
       <div class="sub-title">{{curProvince}}</div>
       <div ref="chartBar" class="mobile"></div>
     </div>
@@ -82,6 +82,17 @@ export default {
     },
     isPC() {
       return this.$store.state.isPC;
+    },
+    showDeptDetail: {
+      get() {
+        return this.$store.state.showDeptDetail;
+      },
+      set(val) {
+        this.$store.commit("showDeptDetail", val);
+      }
+    },
+    detail_dept() {
+      return this.$store.state.detail_dept;
     }
   },
   watch: {
@@ -99,11 +110,39 @@ export default {
       // if (!this.isPC) {
       //   return;
       // }
+      if (this.showDeptDetail) {
+        this.refreshDetail();
+        return;
+      }
+      let detail_dept = localStorage.getItem("detail_dept", true);
+      if (detail_dept) {
+        return;
+      }
       this.getCityData(val);
       this.updateLocalStorage();
+    },
+    showDeptDetail(val) {
+      if (!this.isPC || !val) {
+        return;
+      }
+      this.refreshDetail();
+      localStorage.setItem("detail_dept", true);
+    },
+    detail_dept(val) {
+      this.refreshDetail();
     }
   },
   methods: {
+    refreshDetail() {
+      if (!this.showDeptDetail) {
+        return;
+      }
+      if (this.detail_dept == "中国印钞造币总公司") {
+        this.setCBPMDetail();
+      } else {
+        this.setCityDetail();
+      }
+    },
     loadStorage() {
       let setting = localStorage.getItem("setting");
       if (setting == null) {
@@ -135,6 +174,7 @@ export default {
         if (typeof city == "undefined") {
           return;
         }
+        this.showDeptDetail = false;
         this.curCity = city;
       };
       this.chartBar.on("click", params => refreshCity(params));
@@ -142,6 +182,69 @@ export default {
         return;
       }
       this.chart.on("click", params => refreshCity(params));
+    },
+    setCityDetail() {
+      this.curCity =
+        this.detail_dept == "中国印钞造币总公司"
+          ? "中国印钞造币总公司所属企业参与情况"
+          : this.detail_dept + "各市参与情况";
+
+      let url = this.$baseurl;
+      let params = {
+        s: "/addon/Api/Api/countVoteDeptCity",
+        dept: this.detail_dept
+      };
+      this.$http
+        .jsonp(url, {
+          params
+        })
+        .then(res => {
+          let option = barChart.refresh(res.data);
+          this.chartBar2.setOption(option);
+          this.needRefresh = false;
+        });
+    },
+    convertCBPMDept(dept) {
+      switch (dept) {
+        case "中钞光华印制":
+          return "中钞光华";
+        case "中钞华森实业公司":
+          return "中钞华森";
+        case "中钞信用卡产业发展":
+          return "中钞信用卡";
+        case "中钞特种防伪科技":
+          return "中钞防伪";
+        case "北京中钞钞券设计制版":
+          return "中钞制版";
+        case "中国印钞造币总公司":
+          return "总公司本部";
+        default:
+          return dept;
+      }
+    },
+    setCBPMDetail() {
+      this.curCity =
+        this.detail_dept == "中国印钞造币总公司"
+          ? "中国印钞造币总公司所属企业参与情况"
+          : this.detail_dept + "各市参与情况";
+
+      let url = this.$baseurl;
+      let params = {
+        s: "/addon/Api/Api/countVoteDept"
+      };
+      this.$http
+        .jsonp(url, {
+          params
+        })
+        .then(res => {
+          res.data = res.data.map(item => {
+            item.name = this.convertCBPMDept(item.name);
+            return item;
+          });
+          let option = barChart.refresh(res.data);
+          this.chartBar2.setOption(option);
+          this.needRefresh = false;
+        });
     },
     getCityData(prov) {
       // if (!this.isPC) {
@@ -303,6 +406,6 @@ export default {
 
 .mobile {
   width: 100%;
-  min-height: 90vh;
+  min-height: 130vh;
 }
 </style>

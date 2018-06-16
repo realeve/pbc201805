@@ -92,33 +92,39 @@ export default {
       this.$http
         .jsonp(url)
         .then(res => {
-          this.provData = res.data.map(item => {
-            item.name = convertProv(item.name);
-            return item;
-          });
-          this.chart.setOption(mapChart.refreshMain(this.provData));
+          this.provData = res.data
+            .map(item => {
+              item.name = convertProv(item.name);
+              return item;
+            })
+            .filter(item => item.name);
+
+          // console.log(option);
+
           // let passednum = 0;
           // this.provData.map(item => {
           //   passednum += parseInt(item.passed);
           // })
           // this.$store.commit('setPassed', passednum);
-        })
-        .catch(e => console.log(e));
 
-      if (!this.isPC) {
-        this.needRefresh = false;
-        return;
-      }
+          if (!this.isPC) {
+            var option = mapChart.refreshMain(this.provData);
+            this.chart.setOption(option);
+            this.needRefresh = false;
+            return;
+          }
 
-      url = this.$baseurl + "?s=/addon/Api/Api/getVoteCountByCity";
-      this.$http
-        .jsonp(url)
-        .then(res => {
-          let provData = res.data;
-          let option = mapChart.refreshScatter(provData);
-          this.chart.setOption(option);
-          this.$store.commit("setTop20Cities", provData);
-          this.needRefresh = false;
+          url = this.$baseurl + "?s=/addon/Api/Api/getVoteCountByCity";
+          this.$http.jsonp(url).then(res => {
+            let provData = res.data.map(item => {
+              item.name = item.name.length == 0 ? "(未知)" : item.name;
+              return item;
+            });
+            this.$store.commit("setTop20Cities", provData);
+            let option = mapChart.refreshScatter(provData, this.provData);
+            this.chart.setOption(option);
+            this.needRefresh = false;
+          });
         })
         .catch(e => console.log(e));
     },

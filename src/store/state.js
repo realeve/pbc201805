@@ -23,6 +23,8 @@ const state = {
   needRefresh: false,
   nextTime: moment().add(30, 'seconds').format('MM-DD HH:mm:ss'),
   isPC: !isMobile(),
+  showDeptDetail: false,
+  detail_dept: ''
   // passedCount:0
 }
 

@@ -54,18 +54,18 @@ function init() {
       calculable: true,
       color: ['#43f', '#ff404a'].reverse(),
       pieces: [{
+        max: 500
+      }, {
+        min: 501,
+        max: 1000
+      }, {
+        min: 1001,
         max: 1500
       }, {
         min: 1501,
-        max: 3000
+        max: 2000
       }, {
-        min: 3001,
-        max: 4500
-      }, {
-        min: 4501,
-        max: 6000
-      }, {
-        min: 6001
+        min: 2001
       }],
       textStyle: {
         color: '#fff'
@@ -188,19 +188,28 @@ let refreshMain = Data => {
   return option;
 };
 
-let refreshScatter = Data => {
+let refreshScatter = (Data, newData) => {
   let topData = getTopData(Data);
   let data = convertScatterData(Data);
+  let mainData = refreshMain(newData);
+
   let option = {
+    visualMap: mainData.visualMap,
     series: [{
-      id: 'scatter',
-      symbolSize: val => getSymbolSize(topData.sort, val[2]),
-      data
-    }, {
-      id: 'top20',
-      symbolSize: val => getSymbolSize(topData.sort, val[2]),
-      data: topData.data
-    }]
+        id: "main",
+        data: mainData.series[0].data
+      },
+      {
+        id: "scatter",
+        symbolSize: val => getSymbolSize(topData.sort, val[2]),
+        data
+      },
+      {
+        id: "top20",
+        symbolSize: val => getSymbolSize(topData.sort, val[2]),
+        data: topData.data
+      }
+    ]
   };
   return option;
 };

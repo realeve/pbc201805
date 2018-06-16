@@ -53,13 +53,14 @@ export default {
         this.resizeChart();
       };
 
-      // this.chart.on("click", params => {
-      //   let city = params.name;
-      //   if (typeof city == "undefined") {
-      //     return;
-      //   }
-      //   this.curCity = city;
-      // });
+      this.chart.on("click", params => {
+        let dept = params.name;
+        if (typeof dept == "undefined") {
+          return;
+        }
+        this.$store.commit("showDeptDetail", true);
+        this.$store.commit("setDetailDept", dept.split(".")[1]);
+      });
     },
     refreshChart() {
       this.chart.setOption(barOption.init());
@@ -92,7 +93,7 @@ export default {
 
 <style scoped lang="less">
 .chart {
-  min-height: 80vh;
+  min-height: 90vh;
   width: 100%;
 }
 
@@ -102,6 +103,6 @@ export default {
 }
 .mobile {
   width: 100%;
-  min-height: 90vh;
+  min-height: 150vh;
 }
 </style>
