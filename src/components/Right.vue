@@ -406,6 +406,6 @@ export default {
 
 .mobile {
   width: 100%;
-  min-height: 130vh;
+  min-height: 700px;
 }
 </style>
