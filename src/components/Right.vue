@@ -218,6 +218,16 @@ export default {
           return "中钞制版";
         case "中国印钞造币总公司":
           return "总公司本部";
+        case "中国印钞造币总公司技术中心":
+          return "技术中心";
+        case "中钞长城金融设备控股":
+          return "中钞长城";
+        case "中钞国鼎投资":
+          return "中钞国鼎";
+        case "保定钞票纸业":
+          return "保钞纸业";
+        case "昆山钞票纸业":
+          return "昆钞纸业";
         default:
           return dept;
       }
